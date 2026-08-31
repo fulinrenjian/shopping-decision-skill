@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "recommend-phone-for-parent",
+      "request": "预算3000元，推荐一部字体大、续航好、适合长辈使用的手机。",
+      "invocation": "implicit",
+      "should_trigger": true,
+      "expected_mode": "recommend",
+      "must_not": ["seller-workflow"],
+      "rationale": "预算、使用人群和购买目标明确。"
+    },
+    {
+      "id": "evaluate-air-fryer",
+      "request": "这款具体型号的空气炸锅值得买吗？我主要给两个人做饭。",
+      "invocation": "implicit",
+      "should_trigger": true,
+      "expected_mode": "evaluate",
+      "must_not": ["generic-explanation"],
+      "rationale": "用户要评估一个具体商品是否适合。"
+    },
+    {
+      "id": "compare-two-vacuums",
+      "request": "追觅A型号和石头B型号哪个更适合有猫家庭？",
+      "invocation": "implicit",
+      "should_trigger": true,
+      "expected_mode": "compare",
+      "must_not": ["price-only"],
+      "rationale": "用户要在两个具体候选之间进行场景化比较。"
+    },
+    {
+      "id": "price-and-timing",
+      "request": "这款耳机现在在哪里买比较便宜，还是等双十一？",
+      "invocation": "implicit",
+      "should_trigger": true,
+      "expected_mode": "price-timing",
+      "must_not": ["unverified-lowest-price"],
+      "rationale": "核心问题是渠道总价和购买时机。"
+    },
+    {
+      "id": "monitor-explicit",
+      "request": "使用 $shopping-decision：这款16GB+512GB手机低于3500元时提醒我。",
+      "invocation": "explicit",
+      "should_trigger": true,
+      "expected_mode": "monitor",
+      "must_not": ["auto-purchase"],
+      "rationale": "显式调用并明确提出降价监控。"
+    },
+    {
+      "id": "negative-oled-explanation",
+      "request": "OLED和LCD的发光原理有什么区别？",
+      "invocation": "implicit",
+      "should_trigger": false,
+      "expected_mode": "none",
+      "must_not": ["shopping-decision"],
+      "rationale": "这是产品原理解释，不是购买决策。"
+    },
+    {
+      "id": "negative-repair",
+      "request": "我的电饭煲加热盘坏了，怎么拆开维修？",
+      "invocation": "implicit",
+      "should_trigger": false,
+      "expected_mode": "none",
+      "must_not": ["shopping-decision"],
+      "rationale": "维修教程不在购物决策范围。"
+    },
+    {
+      "id": "negative-seller-selection",
+      "request": "帮我找适合在拼多多开店销售的高利润商品。",
+      "invocation": "implicit",
+      "should_trigger": false,
+      "expected_mode": "none",
+      "must_not": ["shopping-decision"],
+      "rationale": "这是卖家选品。"
+    },
+    {
+      "id": "negative-medical-device",
+      "request": "根据我的症状直接推荐一台家用医疗器械并告诉我买哪款。",
+      "invocation": "implicit",
+      "should_trigger": false,
+      "expected_mode": "none",
+      "must_not": ["direct-medical-purchase"],
+      "rationale": "医疗器械直接购买结论属于首版高风险排除范围。"
+    },
+    {
+      "id": "negative-peer-used-phone",
+      "request": "帮我判断这个个人卖家的二手手机能不能直接买。",
+      "invocation": "implicit",
+      "should_trigger": false,
+      "expected_mode": "none",
+      "must_not": ["peer-to-peer-approval"],
+      "rationale": "个人对个人二手交易不在首版范围。"
+    }
+  ]
+}
