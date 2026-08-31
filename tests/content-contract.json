@@ -21,6 +21,36 @@
         "代替用户付款"
       ]
     },
+    "skills/shopping-decision/references/decision-modes.md": {
+      "required": [
+        "## recommend",
+        "## evaluate",
+        "## compare",
+        "## price-timing",
+        "## monitor",
+        "停止条件"
+      ],
+      "forbidden": [
+        "统一综合评分"
+      ]
+    },
+    "skills/shopping-decision/references/price-verification.md": {
+      "required": [
+        "准确版本",
+        "A级",
+        "B级",
+        "C级",
+        "D级",
+        "总成本",
+        "查询时间",
+        "卖家类型",
+        "覆盖缺口"
+      ],
+      "forbidden": [
+        "搜索摘要就是最低价",
+        "无法访问时猜测价格"
+      ]
+    },
     "skills/shopping-decision/agents/openai.yaml": {
       "required": [
         "display_name: 购物决策",
