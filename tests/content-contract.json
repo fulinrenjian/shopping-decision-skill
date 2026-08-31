@@ -85,11 +85,13 @@
         "目标价格",
         "检查频率",
         "结束日期",
-        "不得自动下单"
+        "不得自动下单",
+        "环境提供的原生定时/自动化机制"
       ],
       "forbidden": [
         "无限期监控",
-        "默认购买"
+        "默认购买",
+        "不创建自动化"
       ]
     },
     "skills/shopping-decision/references/safety-boundaries.md": {
