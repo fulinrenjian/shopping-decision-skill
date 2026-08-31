@@ -90,6 +90,24 @@
       "expected_mode": "none",
       "must_not": ["peer-to-peer-approval"],
       "rationale": "个人对个人二手交易不在首版范围。"
+    },
+    {
+      "id": "explicit-recommend-laptop",
+      "request": "使用 $shopping-decision：预算6000元，推荐适合出差和写代码的轻薄本。",
+      "invocation": "explicit",
+      "should_trigger": true,
+      "expected_mode": "recommend",
+      "must_not": ["seller-workflow"],
+      "rationale": "显式调用，目标是按预算和使用场景推荐商品。"
+    },
+    {
+      "id": "explicit-compare-routers",
+      "request": "使用 $shopping-decision：比较这三款路由器，但先确认是不是同一规格。",
+      "invocation": "explicit",
+      "should_trigger": true,
+      "expected_mode": "compare",
+      "must_not": ["merge-mismatched-variants"],
+      "rationale": "显式调用，且用户要求先执行商品身份核对。"
     }
   ]
 }
