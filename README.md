@@ -64,7 +64,9 @@ Only when the complete conditions are confirmed and the environment supports it 
 
 ## 7. Price evidence and coverage
 
-Price verification first locks the brand, model, generation, capacity/size, bundle, condition, and seller. Each verified record identifies seller type, stock, base price, conditional discounts, shipping, total cost, evidence grade, source, and an observed timestamp in China Standard Time. Only publicly reviewable, no-login A/B-grade pages support a current-price or total-cost conclusion; historical prices are reference only.
+Price verification first locks the brand, model, generation, capacity/size, price-affecting color, bundle, condition, and seller. A monitored product reuses this exact variant. Each record identifies seller type, stock, base price, conditional discounts, shipping, evidence grade, a separate price-verification status, source, and an observed timestamp in China Standard Time. Evidence grades describe source authority: A is an official or current product page, B is an authoritative review, certification, manual, or after-sales policy, C is cross-verifiable user or long-term experience, and D is a search snippet, price-comparison or marketing page, inaccessible page, or uncorroborated claim. A search snippet is always a D-grade clue.
+
+`verified_total` is only the verifiable page-payment amount (base price minus confirmed discounts plus shipping). The purchase total additionally includes known required accessories/consumables and warranty costs; when any required amount is unknown, it is reported as a gap or range rather than an invented exact total. Separate use-cost notes cover maintenance, replacement consumables, energy, or service costs and state unknowns. A current-price or purchase-total conclusion needs both a suitable current price source (normally an A-grade product page) and a `verified` price-verification status; `partial`, `clue`, and `unverified` statuses cannot support an equivalent conclusion. Historical prices remain reference only.
 
 The output names coverage gaps such as unvisited channels, login walls, regional differences, unavailable stock/shipping data, unverified discount eligibility, non-comparable variants, and time differences. Conclusions therefore apply only to the verified channels and pages, never to the whole web.
 
@@ -79,6 +81,8 @@ From the repository root, run:
 ```powershell
 python tests/validate_content.py
 python tests/validate_fixtures.py
+python -X utf8 tests/validate_behavior_cases.py
+python -X utf8 -m unittest tests/test_validate_behavior_cases.py
 git diff --check
 ```
 

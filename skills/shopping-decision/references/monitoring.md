@@ -16,7 +16,7 @@ end_date
 notification_fields
 ```
 
-其中 `product_variant` 锁定**准确版本**；`target_condition`应包含**目标价格**及库存、优惠资格或成色等判断条件；`check_frequency`为**检查频率**；`end_date`为必填的**结束日期**。`notification_fields`至少包含价格、库存、卖家类型、查询时间、来源，以及是否满足全部条件。
+其中 `product_variant` 锁定**准确版本**，复用商品身份键中的品牌、型号、代际、容量/尺寸、会影响价格的颜色、套装、成色和卖家类型；`target_condition`应包含**目标价格**及库存、优惠资格或成色等判断条件；`check_frequency`为**检查频率**；`end_date`为必填的**结束日期**。`notification_fields`至少包含价格、库存、卖家类型、查询时间、来源，以及是否满足全部条件。
 
 ## 执行边界
 

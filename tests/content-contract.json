@@ -15,6 +15,7 @@
         "references/preference-profile.md",
         "references/monitoring.md",
         "references/safety-boundaries.md",
+        "会影响价格的颜色",
         "| `price-timing` | 查询渠道总价、历史价或现在是否该买 | `references/decision-modes.md`、`references/price-verification.md` |",
         "| `monitor` | 用户明确要求持续关注或降价提醒 | `references/decision-modes.md`、`references/monitoring.md`、`references/price-verification.md` |"
       ],
@@ -43,6 +44,14 @@
         "B级",
         "C级",
         "D级",
+        "A级：品牌官网、当前购物平台商品页、官方旗舰店和平台自营页面。",
+        "B级：权威测评、认证记录、官方说明书和官方售后政策。",
+        "C级：可以交叉验证的用户评价、论坛反馈和可信的长期使用报告。",
+        "D级：搜索摘要、比价网站、营销文章、无法访问的页面和未经交叉验证的说法。",
+        "price_verification_status",
+        "purchase_total",
+        "use_cost_notes",
+        "会影响价格的颜色",
         "总成本",
         "查询时间",
         "卖家类型",
@@ -85,6 +94,7 @@
         "目标价格",
         "检查频率",
         "结束日期",
+        "会影响价格的颜色",
         "不得自动下单",
         "环境提供的原生定时/自动化机制"
       ],
@@ -127,7 +137,13 @@
         "$shopping-decision",
         "Apache-2.0",
         "does not log in",
-        "does not purchase"
+        "does not purchase",
+        "price-affecting color",
+        "price-verification status",
+        "purchase total",
+        "use-cost",
+        "python -X utf8 tests/validate_behavior_cases.py",
+        "python -X utf8 -m unittest tests/test_validate_behavior_cases.py"
       ],
       "forbidden": [
         "official partner",
@@ -143,11 +159,22 @@
         "Apache-2.0",
         "不登录",
         "不下单",
-        "来源"
+        "来源",
+        "会影响价格的颜色",
+        "价格核验状态",
+        "购买总成本",
+        "使用成本",
+        "python -X utf8 tests/validate_behavior_cases.py",
+        "python -X utf8 -m unittest tests/test_validate_behavior_cases.py"
       ],
       "forbidden": [
         "保证全网最低价",
         "自动付款"
+      ]
+    },
+    "tests/behavior-cases/decision-and-price.md": {
+      "required": [
+        "把摘要标为 D级线索"
       ]
     }
   }
