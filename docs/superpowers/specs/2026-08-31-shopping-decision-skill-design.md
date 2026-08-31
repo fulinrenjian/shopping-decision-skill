@@ -1,41 +1,43 @@
-# Shopping Decision Skill Design
+# 个人购物决策 Skill 设计文档
 
-Date: 2026-08-31  
-Status: Approved design  
-Initial version target: 0.1.0
+日期：2026-08-31
 
-## 1. Purpose
+状态：已确认设计
 
-`shopping-decision` is a Chinese-first Codex Skill for personal shopping decisions in mainland China. It helps ordinary consumers choose products, evaluate a specific product, compare alternatives, verify current prices, judge purchase timing, and create an explicitly requested price-drop monitor.
+首个目标版本：0.1.0
 
-The Skill is designed for open-source distribution. It must remain useful without mandatory paid services, platform credentials, or third-party API keys.
+## 1. 项目定位
 
-## 2. Goals
+`shopping-decision` 是一个中文优先、面向中国大陆个人购物场景的 Codex Skill。它帮助普通消费者推荐商品、评估某个具体商品、比较多个候选、核验当前价格、判断购买时机，并在用户明确要求后创建降价监控。
 
-- Support automatic activation for clear shopping-decision requests and explicit invocation through `$shopping-decision`.
-- Focus on mainland Chinese retail channels, initially including Taobao/Tmall, JD, Pinduoduo, Douyin Mall, and Vipshop where publicly accessible evidence is available.
-- Produce recommendations grounded in the user's budget, use case, hard constraints, total cost, seller quality, after-sales support, and evidence confidence.
-- Distinguish exact variants, capacities, bundles, conditions, and seller types before comparing products or prices.
-- Support an optional, user-controlled local preference profile without silently collecting personal data.
-- Support price-drop monitoring only after the user explicitly requests and confirms it.
-- Keep token use proportionate through one public Skill entry point and progressive disclosure of mode-specific references.
-- Be independently authored and suitable for publication under Apache-2.0.
+本 Skill 计划独立开源。它在没有付费服务、平台账号或第三方 API Key 的情况下也必须能够完成有价值的购物分析。
 
-## 3. Non-goals
+## 2. 设计目标
 
-Version 0.1.0 will not:
+- 对明确的购物决策请求支持自动触发，同时支持通过 `$shopping-decision` 显式调用。
+- 聚焦中国大陆零售渠道；首版在公开信息可访问的前提下，重点支持淘宝、天猫、京东、拼多多、抖音商城和唯品会。
+- 根据用户预算、使用场景、硬性条件、总成本、卖家质量、售后保障和证据置信度给出推荐。
+- 在比较商品或价格前，区分准确型号、容量、规格、套装、成色和卖家类型。
+- 支持由用户控制、主动开启的本地购物偏好档案，不在后台收集个人数据。
+- 只有用户明确要求并确认后，才能创建降价监控。
+- 使用单一公开 Skill 入口和渐进式加载结构，让 Token 消耗与任务复杂度相匹配。
+- 内容独立创作，适合使用 Apache-2.0 许可证开源。
 
-- Operate an e-commerce store, perform seller-side sourcing, write listings, or manage advertising.
-- Log in to a marketplace, manage carts, place orders, submit personal information, or make payments.
-- Require or bundle a scraper, database, browser extension, paid API, marketplace account, cookie, or credential.
-- Promise complete platform coverage when pages are login-gated, blocked, stale, or unavailable.
-- Give direct purchase conclusions for medicine, medical devices, financial products, real estate, whole vehicles, travel bookings, or peer-to-peer second-hand transactions. It may organize information and surface risk boundaries for these categories. Official refurbished products may remain in scope when the seller, condition, warranty, and return terms can be verified.
-- Handle repair tutorials, legal disputes, after-sales arbitration, or generic product-technology explanations unless they are necessary to an active purchase decision.
-- Persist full browsing history, purchase history, precise addresses, payment data, account credentials, or inferred sensitive traits.
+## 3. 首版不做的事情
 
-## 4. Repository and Package Structure
+版本 0.1.0 不会：
 
-The project will be a standalone Git repository named `shopping-decision-skill`.
+- 经营电商店铺、进行卖家选品、撰写商品 Listing 或管理广告。
+- 登录购物平台、操作购物车、提交个人资料、下单或付款。
+- 强制依赖或内置爬虫、数据库、浏览器扩展、付费 API、平台账号、Cookie 或凭据。
+- 在页面需要登录、遭到限制、内容过期或无法访问时承诺完整的平台覆盖。
+- 对药品、医疗器械、金融产品、房产、汽车整车、旅游预订或个人对个人二手交易直接给出购买结论。可以帮助整理信息并提示这些类别的风险边界。官方翻新商品仍可纳入范围，但必须能够核验卖家、成色、保修和退货规则。
+- 处理商品维修教程、法律纠纷、售后仲裁或纯产品技术原理，除非这些信息确实影响当前购买决策。
+- 保存完整浏览记录、购买记录、详细地址、支付数据、平台凭据或推断出的敏感特征。
+
+## 4. 仓库与包结构
+
+项目建立为独立 Git 仓库，名称为 `shopping-decision-skill`。
 
 ```text
 shopping-decision-skill/
@@ -62,225 +64,225 @@ shopping-decision-skill/
 `-- NOTICE
 ```
 
-`SKILL.md` will contain only shared routing, essential invariants, and reference-loading rules. Detailed instructions will be loaded only for the active shopping mode. The initial release will not include executable shopping or scraping scripts.
+`SKILL.md` 只保存公共路由、关键不变量和参考资料加载规则。只有与当前任务相关的模式说明才会被读取。首版不包含购物执行脚本或平台抓取脚本。
 
-## 5. Activation and Routing
+## 5. 触发与路由
 
-### 5.1 Automatic activation
+### 5.1 自动触发
 
-The Skill should activate when the user clearly requests a personal purchase decision, including requests to:
+当用户明确提出个人购物决策请求时，Skill 应自动触发，包括：
 
-- Recommend a product within a budget or use case.
-- Decide whether a specific product is suitable or worth buying.
-- Compare two or more concrete products.
-- Find where a specific product is cheaper.
-- Decide whether to buy now or wait.
-- Monitor a product for a target price or price drop.
+- 在指定预算或使用场景下推荐商品。
+- 判断某个具体商品是否适合、是否值得买。
+- 比较两个或多个具体商品。
+- 查询某个具体商品在哪里更便宜。
+- 判断现在买还是等待。
+- 按目标价格或降幅持续监控某个商品。
 
-### 5.2 Explicit activation
+### 5.2 显式触发
 
-The Skill must also support `$shopping-decision` followed by a shopping request.
+用户也可以通过 `$shopping-decision` 加购物请求的方式显式调用。
 
-### 5.3 Exclusions
+### 5.3 排除范围
 
-The description and body must avoid attracting generic product explanations, repairs, seller-side e-commerce work, after-sales disputes, or high-risk purchase categories outside the supported scope.
+Skill 的描述和正文应避免吸引普通产品解释、维修、卖家侧电商工作、售后纠纷，以及超出支持范围的高风险商品请求。
 
-### 5.4 Internal modes
+### 5.4 内部模式
 
-The router selects one primary mode:
+路由器选择一个主要模式：
 
-1. `recommend`: Generate a short list that fits the user's requirements.
-2. `evaluate`: Assess one exact product and purchase context.
-3. `compare`: Compare multiple exact products on decision-relevant dimensions.
-4. `price-timing`: Verify channel costs and assess whether to buy now or wait.
-5. `monitor`: Define and create an explicitly authorized price-drop monitor.
+1. `recommend`：生成符合用户需求的精简候选清单。
+2. `evaluate`：评估一个准确商品及其购买场景。
+3. `compare`：围绕真正影响决策的维度比较多个准确商品。
+4. `price-timing`：核验不同渠道的总成本，并判断现在买还是等待。
+5. `monitor`：定义并创建经过用户明确授权的降价监控。
 
-A request may use supporting rules from another mode without creating another public Skill. For example, a comparison may load price-verification rules while remaining a `compare` task.
+一个请求可以使用另一个模式的辅助规则，但不会因此触发第二个公开 Skill。例如，商品对比可以同时读取价格核验规则，但主要模式仍然是 `compare`。
 
-## 6. Decision Workflow
+## 6. 决策工作流
 
-The shared workflow is:
+公共工作流如下：
 
-1. Identify the purchase goal and primary mode.
-2. Read current-turn requirements and, only if enabled, the user-controlled preference profile.
-3. Ask only for missing information that can materially change the recommendation.
-4. Pin the exact product identity: brand, model, generation, capacity, size, color when price-relevant, bundle, condition, and seller type.
-5. Collect current public evidence using available web search and browser capabilities.
-6. Verify product facts, price, stock, shipping, discounts, warranty, return terms, and seller identity as far as accessible.
-7. Apply hard constraints before comparing softer preferences.
-8. Compare total acquisition and ownership cost rather than headline price alone.
-9. Surface quality, after-sales, compatibility, counterfeit, return, and evidence risks.
-10. Produce a conclusion calibrated to the strength and completeness of the evidence.
-11. Offer monitoring only when it would serve the request; create it only after explicit user authorization.
+1. 识别购买目标和主要模式。
+2. 读取用户本次要求；只有已经启用时，才读取由用户控制的本地偏好档案。
+3. 只询问确实可能改变推荐结论的缺失信息。
+4. 锁定准确商品身份：品牌、型号、代际、容量、尺寸、会影响价格的颜色、套装、成色和卖家类型。
+5. 使用当前环境可用的网页搜索和浏览器能力收集公开信息。
+6. 尽可能核验产品事实、价格、库存、运费、优惠、保修、退货规则和卖家身份。
+7. 先应用硬性条件，再比较偏好性条件。
+8. 比较购买总成本和使用成本，而不是只比较页面标价。
+9. 提示品控、售后、兼容性、假货、退货和证据不足风险。
+10. 根据证据强度和完整程度给出相应置信度的结论。
+11. 只有监控确实有帮助时才提出；只有得到明确授权后才创建。
 
-## 7. Evidence and Price Verification
+## 7. 证据与价格核验
 
-### 7.1 Evidence grades
+### 7.1 证据等级
 
-- Grade A: Manufacturer pages, current marketplace product pages, official flagship stores, and first-party/self-operated retailer pages.
-- Grade B: Authoritative reviews, certification records, official manuals, and official after-sales policies.
-- Grade C: Corroborated user reviews, forums, and credible long-term ownership reports.
-- Grade D: Search snippets, comparison sites, marketing articles, inaccessible pages, and uncorroborated claims. These are leads, not decisive evidence.
+- A级：品牌官网、当前购物平台商品页、官方旗舰店和平台自营页面。
+- B级：权威测评、认证记录、官方说明书和官方售后政策。
+- C级：可以交叉验证的用户评价、论坛反馈和可信的长期使用报告。
+- D级：搜索摘要、比价网站、营销文章、无法访问的页面和未经交叉验证的说法。这些只能作为线索，不能作为决定性证据。
 
-### 7.2 Price requirements
+### 7.2 价格核验要求
 
-A price may be presented as verified only when the response can identify:
+只有能够确认以下信息时，价格才能被标记为“已核验”：
 
-- The exact product variant.
-- The seller or store type.
-- In-stock or applicable availability state.
-- The observation time and timezone.
-- The source page or traceable source.
+- 准确商品版本。
+- 卖家或店铺类型。
+- 在售及库存状态。
+- 查询时间和时区。
+- 来源页面或可追溯来源。
 
-Search snippets and promotional claims must not be described as the verified lowest price. Discounts that require cart, membership, trade-in, financing, livestream participation, coupon collection, or uncertain cashback must be separated from an unconditional price.
+搜索摘要和促销宣传不能直接描述为已核验最低价。需要加入购物车、会员资格、以旧换新、分期付款、直播参与、领取优惠券或不确定返现才能获得的优惠，必须与无条件价格分开说明。
 
-### 7.3 Total cost
+### 7.3 总成本
 
-Where relevant, comparisons should account for product price, shipping, required accessories or consumables, warranty, likely maintenance, and clearly applicable discounts. The Skill must not manufacture precision when taxes, regional subsidies, membership terms, or checkout-only discounts are unknown.
+在相关场景中，比较应考虑商品价格、运费、必需配件或耗材、保修、可能的维护成本，以及明确可用的优惠。如果税费、地区补贴、会员条件或结算页优惠未知，不得制造虚假的精确总价。
 
-### 7.4 Recommendation strength
+### 7.4 推荐结论强度
 
-The Skill will use hard filters and category-specific decision criteria rather than a universal numeric score. It should not invent a precise score that implies unsupported measurement. Missing or conflicting evidence must weaken the conclusion and appear in the final answer.
+Skill 使用硬性筛选和随品类变化的决策标准，不使用统一的虚假精确评分。证据缺失或互相冲突时，必须降低结论强度，并在最终回答中说明。
 
-## 8. Default Output Contract
+## 8. 默认输出约定
 
-Outputs scale with purchase complexity and cost. A simple request should stay concise; an expensive or technically complex purchase may use the full structure:
+输出复杂度应与商品价格和购买复杂度匹配。简单请求保持简洁；昂贵或技术复杂的购买可以使用完整结构：
 
-1. Conclusion: recommended option and the main reason.
-2. Fit: why it matches the user's stated requirements.
-3. Alternatives: material differences, trade-offs, and best-fit user for each.
-4. Price and channel evidence: exact variant, store type, total price when calculable, stock, observation time, and source.
-5. Risks and uncertainty: unresolved facts, seller or after-sales concerns, and checkout items the user must confirm.
-6. Next action: buy now, wait, choose another variant, inspect in person, or set a price monitor.
+1. 结论：推荐哪一个，以及最主要的原因。
+2. 匹配度：为什么符合用户明确提出的需求。
+3. 候选差异：重要取舍，以及每个候选最适合的人群。
+4. 价格与渠道证据：准确版本、店铺类型、可计算时的总价、库存、查询时间和来源。
+5. 风险与不确定性：尚未解决的事实、卖家或售后风险，以及用户必须在结算页确认的事项。
+6. 下一步：现在购买、等待、改选其他版本、线下体验或设置降价监控。
 
-The Skill must not fill tables with irrelevant specifications or declare a winner solely because it has the highest specifications.
+Skill 不会为了填满表格堆砌无关参数，也不会只因为某个商品配置最高就宣布它获胜。
 
-## 9. Optional Local Preference Profile
+## 9. 可选本地购物偏好档案
 
-### 9.1 Default behavior
+### 9.1 默认行为
 
-The Skill uses the current conversation by default and does not create persistent memory automatically.
+Skill 默认只使用当前对话，不会自动创建长期记忆。
 
-### 9.2 Opt-in behavior
+### 9.2 主动开启
 
-The user may explicitly enable a local preference profile in a user-controlled location outside the installed Skill directory. Creation, modification, and deletion require confirmation. The example asset documents a portable schema rather than containing real user data.
+用户可以明确开启本地购物偏好档案。档案保存在用户控制、且位于 Skill 安装目录之外的位置。创建、修改和删除前都需要确认。示例文件只说明可移植的数据结构，不包含真实用户数据。
 
-### 9.3 Allowed fields
+### 9.3 允许保存的内容
 
-The profile may include:
+档案可以包括：
 
-- Typical budget ranges by category.
-- Province or city, without a full address.
-- Preferred or excluded brands and marketplaces.
-- Acceptance of official refurbished products or third-party marketplace sellers. Peer-to-peer used-goods transactions remain outside the initial scope.
-- Relative preference for price, performance, reliability, after-sales support, appearance, or portability.
-- User-provided size or fit information when they explicitly choose to store it.
-- A last-confirmed date for each preference.
+- 不同品类的常用预算范围。
+- 省或城市，不保存完整地址。
+- 偏好或排斥的品牌和购物平台。
+- 是否接受官方翻新商品或第三方平台卖家。个人对个人二手交易仍不属于首版范围。
+- 对价格、性能、可靠性、售后、外观或便携性的相对偏好。
+- 用户主动选择保存的尺码或适配信息。
+- 每项偏好的最后确认日期。
 
-### 9.4 Prohibited fields
+### 9.4 禁止保存的内容
 
-The profile must not contain account passwords, tokens, payment data, government identifiers, full addresses, or silently inferred sensitive information. It must not become a comprehensive browsing or purchase-history database.
+档案不得包含账号密码、Token、支付数据、政府签发证件号码、完整地址或在后台推断出的敏感信息。档案不能演变成完整的浏览或购物历史数据库。
 
-### 9.5 Precedence and freshness
+### 9.5 优先级与时效
 
-Current-turn requirements override profile defaults. Stale preferences should be re-confirmed before materially influencing an expensive purchase.
+用户本次对话提出的要求高于档案默认值。长期没有确认的偏好在影响昂贵商品推荐前应重新确认。
 
-## 10. Price-drop Monitoring
+## 10. 降价监控
 
-Monitoring is an explicit, separate action. Before creating a monitor, the Skill must confirm:
+监控是一项独立、需要明确授权的操作。创建前，Skill 必须确认：
 
-- Exact product and variant.
-- Target price or qualifying drop condition.
-- Eligible platforms or store types.
-- Whether only official or self-operated sellers qualify.
-- Check frequency.
-- End date.
+- 准确商品和版本。
+- 目标价格或满足条件的降幅。
+- 允许的平台或店铺类型。
+- 是否只接受官方店或平台自营。
+- 检查频率。
+- 结束日期。
 
-When the current Codex environment provides recurring automations, the Skill may create a manageable scheduled monitor after authorization. Otherwise, it should provide a manual monitoring plan. A 30-day duration may be suggested but must not be assumed without confirmation.
+如果当前 Codex 环境提供定时任务，Skill 可以在用户授权后创建可管理的定时监控；否则应提供手动监控方案。可以建议监控 30 天，但未经确认不得直接采用。
 
-A notification must include the verified price, stock state, seller type, observation time, source, and whether every user condition was met. Uncertain coupon, cashback, membership, or checkout-only claims must not silently satisfy the target.
+通知必须包含已核验价格、库存状态、卖家类型、查询时间、来源，以及是否满足用户的全部条件。不确定的优惠券、返现、会员价或结算页优惠不能在未说明的情况下被计入目标价格。
 
-Monitoring never authorizes login, cart mutation, checkout, purchase, or payment.
+监控永远不授权登录、操作购物车、结算、下单或付款。
 
-## 11. Safety and Privacy Boundaries
+## 11. 安全与隐私边界
 
-- Never request, store, or transmit a marketplace password, payment credential, identity number, or full address.
-- Never claim to have placed an order or reserved stock.
-- Never perform a purchase or payment action.
-- Do not treat a marketplace domain as proof that the seller is the platform or brand.
-- Do not compare different variants as if they were identical.
-- Do not hide missing platform coverage, login barriers, blocked pages, or stale evidence.
-- Do not turn an unavailable price into an estimate unless clearly labeled and useful.
-- Stop and hand off when a task requires legal, medical, financial, or other specialized high-stakes advice.
+- 不得索取、保存或传输购物平台密码、支付凭据、身份号码或完整地址。
+- 不得声称已经下单或锁定库存。
+- 不得执行购买或付款操作。
+- 不得因为商品位于某个平台域名，就把卖家认定为平台自营或品牌官方。
+- 不得把不同版本当成同一商品比较。
+- 不得隐瞒未覆盖的平台、登录限制、受阻页面或过期证据。
+- 除非明确标注且确实有帮助，否则不得把无法取得的价格替换成估算价格。
+- 当任务需要法律、医疗、金融或其他高风险专业建议时停止并转交相应流程。
 
-## 12. Failure Handling
+## 12. 失败处理
 
-If live pages are inaccessible, the Skill should continue with accessible public evidence only when that evidence can still support a useful, qualified answer. It must state which channels were not checked and which claims remain unverified.
+如果实时页面无法访问，只有在其余公开证据仍能支持有价值且带限制条件的回答时，Skill 才继续分析。必须说明哪些渠道没有检查、哪些说法尚未核验。
 
-If exact variants cannot be established, the Skill should ask one targeted question or provide a conditional comparison rather than merging products.
+如果不能确认准确版本，Skill 应询问一个有针对性的问题，或提供带条件的对比，而不是合并不同商品。
 
-If price sources disagree across observation times, the Skill should re-check when practical and otherwise surface the disagreement rather than average the prices.
+如果不同查询时间的价格相互冲突，应在可行时重新检查；无法重新检查时应展示冲突，不得计算平均价掩盖差异。
 
-If a requested monitor lacks an exact variant, threshold, cadence, seller constraint, or end date, the Skill must collect the missing condition before creating the automation.
+如果监控请求缺少准确版本、价格条件、检查频率、卖家限制或结束日期，必须先收集缺失条件，才能创建定时任务。
 
-## 13. Testing Strategy
+## 13. 测试策略
 
-Tests will validate behavior and invariants, not volatile market prices.
+测试验证行为和不变量，不验证会持续变化的市场价格。
 
-### 13.1 Trigger tests
+### 13.1 触发测试
 
-- Positive automatic-trigger examples for recommendation, evaluation, comparison, price timing, and monitoring.
-- Explicit `$shopping-decision` invocation.
-- Negative examples for generic explanations, repairs, seller-side work, disputes, and unsupported high-risk categories.
+- 为推荐、单品评估、商品比较、价格时机和降价监控准备应自动触发的示例。
+- 验证 `$shopping-decision` 显式调用。
+- 为普通产品解释、维修、卖家侧工作、售后纠纷和不支持的高风险品类准备不应触发的示例。
 
-### 13.2 Behavioral cases
+### 13.2 行为案例
 
-- Ask only decision-changing questions.
-- Reject comparisons between mismatched variants.
-- Do not promote snippet prices to verified current prices.
-- Include source and timestamp for verified prices.
-- Prefer current-turn requirements over profile defaults.
-- Require authorization before profile changes.
-- Require explicit monitoring intent and complete monitor conditions.
-- Avoid login, cart, checkout, payment, and sensitive-data collection.
-- State coverage gaps and evidence uncertainty.
-- Keep simple purchases concise and expand only when warranted.
+- 只询问会改变决策的问题。
+- 拒绝比较不一致的商品版本。
+- 不把搜索摘要价格升级为已核验实时价格。
+- 已核验价格必须包含来源和时间。
+- 当前要求优先于档案默认值。
+- 修改档案前必须获得授权。
+- 创建监控前必须有明确监控意图和完整条件。
+- 不登录、不操作购物车、不结算、不付款、不收集敏感信息。
+- 明确说明覆盖缺口和证据不确定性。
+- 简单购买保持简洁，只在必要时展开。
 
-### 13.3 Structural validation
+### 13.3 结构验证
 
-The package will be checked for valid Skill frontmatter, consistent naming, discoverable references, plugin metadata, unresolved placeholders, and installability from GitHub.
+检查 Skill frontmatter、命名一致性、参考文件可发现性、插件元数据、未完成占位符，以及能否从 GitHub 正常安装。
 
-## 14. Open-source and Provenance Policy
+## 14. 开源与来源政策
 
-- License original project content under Apache-2.0.
-- Maintain a `NOTICE` file stating that the project is an independent implementation.
-- Do not copy prompts, code, templates, or documentation from existing shopping Skills.
-- The README may list related projects for ecosystem context without implying affiliation, endorsement, or collaboration.
-- Do not commit credentials, cookies, API keys, user profiles, or real shopping records.
-- Provide Chinese-first documentation and an English README for international discoverability.
+- 原创项目内容使用 Apache-2.0 许可证。
+- 使用 `NOTICE` 声明本项目为独立实现。
+- 不复制现有购物 Skills 的提示词、代码、模板或文档。
+- README 可以把相关项目列为生态参考，但不得暗示合作、背书或官方关系。
+- 不提交凭据、Cookie、API Key、用户档案或真实购物记录。
+- 提供中文优先文档，并提供英文 README，方便国际用户发现和使用。
 
-## 15. Acceptance Criteria for Version 0.1.0
+## 15. 版本 0.1.0 验收标准
 
-Version 0.1.0 is complete when:
+满足以下全部条件时，版本 0.1.0 才算完成：
 
-1. Codex can select the Skill automatically for clear shopping decisions and explicitly through `$shopping-decision`.
-2. All five modes route to the correct references without loading unrelated modules.
-3. Product identity, price evidence, seller type, timestamp, and uncertainty rules are enforced in realistic cases.
-4. The optional profile workflow preserves user control and does not store prohibited data.
-5. Monitoring requires explicit authorization and complete conditions.
-6. No workflow logs in, buys, checks out, pays, or requests sensitive credentials.
-7. Behavior cases and structural validation pass.
-8. The repository includes complete installation, usage, license, and provenance documentation.
-9. The Skill remains useful without a mandatory external API key or paid service.
+1. Codex 能够为明确购物决策自动选择该 Skill，也能通过 `$shopping-decision` 显式调用。
+2. 五种模式能够路由到正确参考资料，不加载无关模块。
+3. 在真实行为案例中落实商品身份、价格证据、卖家类型、查询时间和不确定性规则。
+4. 可选偏好档案保持用户控制，不保存禁止内容。
+5. 降价监控要求明确授权和完整条件。
+6. 所有工作流都不会登录、购买、结算、付款或索取敏感凭据。
+7. 行为案例和结构验证通过。
+8. 仓库包含完整的安装、使用、许可证和来源说明。
+9. 没有强制外部 API Key 或付费服务时，Skill 仍然有实际用途。
 
-## 16. Deferred Work
+## 16. 延后功能
 
-The following may be evaluated after real-world use of version 0.1.0:
+版本 0.1.0 经过真实使用后，再评估以下功能：
 
-- Optional adapters for reputable price-history or shopping data providers.
-- Additional platform-specific guidance when it can be maintained reliably.
-- User-controlled import or export of preference profiles.
-- Category-specific modules where generic rules prove insufficient.
-- Privacy-preserving local price-history storage.
+- 为可信的价格历史或购物数据服务增加可选适配器。
+- 在能够可靠维护时增加更多平台专用规则。
+- 用户控制的偏好档案导入与导出。
+- 当通用规则无法满足需求时增加品类专用模块。
+- 保护隐私的本地价格历史记录。
 
-Deferred features must not weaken the authorization, privacy, evidence, or no-purchase boundaries established here.
+所有延后功能都不得削弱本设计确定的授权、隐私、证据和禁止自动购买边界。
