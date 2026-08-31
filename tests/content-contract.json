@@ -119,6 +119,36 @@
         "payment:",
         "full_address:"
       ]
+    },
+    "README.md": {
+      "required": [
+        "Shopping Decision Skill",
+        "README.zh-CN.md",
+        "$shopping-decision",
+        "Apache-2.0",
+        "does not log in",
+        "does not purchase"
+      ],
+      "forbidden": [
+        "official partner",
+        "guaranteed lowest price"
+      ]
+    },
+    "README.zh-CN.md": {
+      "required": [
+        "个人购物决策",
+        "$shopping-decision",
+        "自动触发",
+        "降价监控",
+        "Apache-2.0",
+        "不登录",
+        "不下单",
+        "来源"
+      ],
+      "forbidden": [
+        "保证全网最低价",
+        "自动付款"
+      ]
     }
   }
 }
