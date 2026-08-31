@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "files": {
+    "skills/shopping-decision/SKILL.md": {
+      "required": [
+        "name: shopping-decision",
+        "## 选择一个主要模式",
+        "recommend",
+        "evaluate",
+        "compare",
+        "price-timing",
+        "monitor",
+        "references/decision-modes.md",
+        "references/price-verification.md",
+        "references/preference-profile.md",
+        "references/monitoring.md",
+        "references/safety-boundaries.md",
+        "会影响价格的颜色",
+        "| `price-timing` | 查询渠道总价、历史价或现在是否该买 | `references/decision-modes.md`、`references/price-verification.md` |",
+        "| `monitor` | 用户明确要求持续关注或降价提醒 | `references/decision-modes.md`、`references/monitoring.md`、`references/price-verification.md` |"
+      ],
+      "forbidden": [
+        "自动下单",
+        "代替用户付款"
+      ]
+    },
+    "skills/shopping-decision/references/decision-modes.md": {
+      "required": [
+        "## recommend",
+        "## evaluate",
+        "## compare",
+        "## price-timing",
+        "## monitor",
+        "停止条件"
+      ],
+      "forbidden": [
+        "统一综合评分"
+      ]
+    },
+    "skills/shopping-decision/references/price-verification.md": {
+      "required": [
+        "准确版本",
+        "A级",
+        "B级",
+        "C级",
+        "D级",
+        "A级：品牌官网、当前购物平台商品页、官方旗舰店和平台自营页面。",
+        "B级：权威测评、认证记录、官方说明书和官方售后政策。",
+        "C级：可以交叉验证的用户评价、论坛反馈和可信的长期使用报告。",
+        "D级：搜索摘要、比价网站、营销文章、无法访问的页面和未经交叉验证的说法。",
+        "price_verification_status",
+        "purchase_total",
+        "use_cost_notes",
+        "会影响价格的颜色",
+        "总成本",
+        "查询时间",
+        "卖家类型",
+        "覆盖缺口"
+      ],
+      "forbidden": [
+        "搜索摘要就是最低价",
+        "无法访问时猜测价格"
+      ]
+    },
+    "skills/shopping-decision/agents/openai.yaml": {
+      "required": [
+        "display_name: 购物决策",
+        "short_description:",
+        "$shopping-decision"
+      ],
+      "forbidden": [
+        "allow_implicit_invocation: false"
+      ]
+    },
+    "skills/shopping-decision/references/preference-profile.md": {
+      "required": [
+        "默认关闭",
+        "创建前确认",
+        "修改前确认",
+        "删除前确认",
+        "当前对话优先",
+        "最后确认日期"
+      ],
+      "forbidden": [
+        "自动记录购买历史",
+        "保存完整地址",
+        "保存账号密码"
+      ]
+    },
+    "skills/shopping-decision/references/monitoring.md": {
+      "required": [
+        "明确授权",
+        "准确版本",
+        "目标价格",
+        "检查频率",
+        "结束日期",
+        "会影响价格的颜色",
+        "不得自动下单",
+        "环境提供的原生定时/自动化机制"
+      ],
+      "forbidden": [
+        "无限期监控",
+        "默认购买",
+        "不创建自动化"
+      ]
+    },
+    "skills/shopping-decision/references/safety-boundaries.md": {
+      "required": [
+        "敏感信息",
+        "高风险品类",
+        "个人对个人二手交易",
+        "官方翻新",
+        "停止"
+      ],
+      "forbidden": [
+        "代填支付信息"
+      ]
+    },
+    "skills/shopping-decision/assets/shopping-profile.example.md": {
+      "required": [
+        "schema_version: 1",
+        "region: null",
+        "preferred: []",
+        "excluded: []",
+        "updated_at: null"
+      ],
+      "forbidden": [
+        "password:",
+        "payment:",
+        "full_address:"
+      ]
+    },
+    "README.md": {
+      "required": [
+        "Shopping Decision Skill",
+        "README.zh-CN.md",
+        "$shopping-decision",
+        "Apache-2.0",
+        "does not log in",
+        "does not purchase",
+        "price-affecting color",
+        "price-verification status",
+        "purchase total",
+        "use-cost",
+        "python -X utf8 tests/validate_behavior_cases.py",
+        "python -X utf8 -m unittest tests/test_validate_behavior_cases.py"
+      ],
+      "forbidden": [
+        "official partner",
+        "guaranteed lowest price"
+      ]
+    },
+    "README.zh-CN.md": {
+      "required": [
+        "个人购物决策",
+        "$shopping-decision",
+        "自动触发",
+        "降价监控",
+        "Apache-2.0",
+        "不登录",
+        "不下单",
+        "来源",
+        "会影响价格的颜色",
+        "价格核验状态",
+        "购买总成本",
+        "使用成本",
+        "python -X utf8 tests/validate_behavior_cases.py",
+        "python -X utf8 -m unittest tests/test_validate_behavior_cases.py"
+      ],
+      "forbidden": [
+        "保证全网最低价",
+        "自动付款"
+      ]
+    },
+    "tests/behavior-cases/decision-and-price.md": {
+      "required": [
+        "把摘要标为 D级线索"
+      ]
+    }
+  }
+}

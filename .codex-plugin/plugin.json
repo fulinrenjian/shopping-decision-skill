@@ -1,0 +1,25 @@
+{
+  "name": "shopping-decision-skill",
+  "version": "0.1.0",
+  "description": "Chinese-first personal shopping decisions for recommendations, comparisons, price verification, purchase timing, and authorized price monitoring.",
+  "author": {
+    "name": "fulinrenjian"
+  },
+  "license": "Apache-2.0",
+  "keywords": ["shopping", "product-comparison", "price", "consumer", "chinese"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "购物决策",
+    "shortDescription": "面向中国大陆消费者的商品推荐、对比与比价",
+    "longDescription": "根据预算、使用场景、准确型号、总成本、卖家和售后证据，提供个人购物建议并支持经授权的降价监控。",
+    "developerName": "fulinrenjian",
+    "category": "Productivity",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": [
+      "使用 $shopping-decision：预算 3000 元，帮我推荐适合长辈使用的手机。",
+      "使用 $shopping-decision：比较这两款商品，并告诉我现在是否值得买。",
+      "使用 $shopping-decision：低于我的目标价时提醒我。"
+    ],
+    "brandColor": "#C85A3A"
+  }
+}
