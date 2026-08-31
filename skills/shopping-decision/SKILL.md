@@ -14,8 +14,8 @@ description: Use for personal shopping decisions in mainland China when a user w
 | `recommend` | 按预算、用途或人群推荐候选 | `references/decision-modes.md` |
 | `evaluate` | 判断一个准确商品是否适合、是否值得买 | `references/decision-modes.md`、`references/price-verification.md` |
 | `compare` | 比较两个或多个准确商品 | `references/decision-modes.md`、`references/price-verification.md` |
-| `price-timing` | 查询渠道总价、历史价或现在是否该买 | `references/price-verification.md` |
-| `monitor` | 用户明确要求持续关注或降价提醒 | `references/monitoring.md`、`references/price-verification.md` |
+| `price-timing` | 查询渠道总价、历史价或现在是否该买 | `references/decision-modes.md`、`references/price-verification.md` |
+| `monitor` | 用户明确要求持续关注或降价提醒 | `references/decision-modes.md`、`references/monitoring.md`、`references/price-verification.md` |
 
 一次只确定一个主要模式。需要价格证据时可以补读价格核验资料，不再触发第二个 Skill。
 

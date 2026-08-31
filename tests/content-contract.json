@@ -14,7 +14,9 @@
         "references/price-verification.md",
         "references/preference-profile.md",
         "references/monitoring.md",
-        "references/safety-boundaries.md"
+        "references/safety-boundaries.md",
+        "| `price-timing` | 查询渠道总价、历史价或现在是否该买 | `references/decision-modes.md`、`references/price-verification.md` |",
+        "| `monitor` | 用户明确要求持续关注或降价提醒 | `references/decision-modes.md`、`references/monitoring.md`、`references/price-verification.md` |"
       ],
       "forbidden": [
         "自动下单",
