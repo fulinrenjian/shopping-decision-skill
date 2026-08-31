@@ -62,6 +62,61 @@
       "forbidden": [
         "allow_implicit_invocation: false"
       ]
+    },
+    "skills/shopping-decision/references/preference-profile.md": {
+      "required": [
+        "默认关闭",
+        "创建前确认",
+        "修改前确认",
+        "删除前确认",
+        "当前对话优先",
+        "最后确认日期"
+      ],
+      "forbidden": [
+        "自动记录购买历史",
+        "保存完整地址",
+        "保存账号密码"
+      ]
+    },
+    "skills/shopping-decision/references/monitoring.md": {
+      "required": [
+        "明确授权",
+        "准确版本",
+        "目标价格",
+        "检查频率",
+        "结束日期",
+        "不得自动下单"
+      ],
+      "forbidden": [
+        "无限期监控",
+        "默认购买"
+      ]
+    },
+    "skills/shopping-decision/references/safety-boundaries.md": {
+      "required": [
+        "敏感信息",
+        "高风险品类",
+        "个人对个人二手交易",
+        "官方翻新",
+        "停止"
+      ],
+      "forbidden": [
+        "代填支付信息"
+      ]
+    },
+    "skills/shopping-decision/assets/shopping-profile.example.md": {
+      "required": [
+        "schema_version: 1",
+        "region: null",
+        "preferred: []",
+        "excluded: []",
+        "updated_at: null"
+      ],
+      "forbidden": [
+        "password:",
+        "payment:",
+        "full_address:"
+      ]
     }
   }
 }
