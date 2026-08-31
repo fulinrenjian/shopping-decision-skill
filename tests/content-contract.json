@@ -1,4 +1,35 @@
 {
   "schema_version": 1,
-  "files": {}
+  "files": {
+    "skills/shopping-decision/SKILL.md": {
+      "required": [
+        "name: shopping-decision",
+        "## 选择一个主要模式",
+        "recommend",
+        "evaluate",
+        "compare",
+        "price-timing",
+        "monitor",
+        "references/decision-modes.md",
+        "references/price-verification.md",
+        "references/preference-profile.md",
+        "references/monitoring.md",
+        "references/safety-boundaries.md"
+      ],
+      "forbidden": [
+        "自动下单",
+        "代替用户付款"
+      ]
+    },
+    "skills/shopping-decision/agents/openai.yaml": {
+      "required": [
+        "display_name: 购物决策",
+        "short_description:",
+        "$shopping-decision"
+      ],
+      "forbidden": [
+        "allow_implicit_invocation: false"
+      ]
+    }
+  }
 }

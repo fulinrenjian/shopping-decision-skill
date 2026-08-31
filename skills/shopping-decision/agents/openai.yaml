@@ -1,0 +1,4 @@
+interface:
+  display_name: 购物决策
+  short_description: 面向中国大陆消费者的商品推荐、对比、比价与降价监控
+  default_prompt: 使用 $shopping-decision：根据我的预算和用途推荐商品，并核验关键价格与风险。
