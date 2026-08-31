@@ -12,7 +12,7 @@ CASE_FILES = (
 )
 REQUIRED_FIELDS = {
     "调用方式": ("调用方式",),
-    "用户请求": ("用户请求",),
+    "用户请求": ("用户请求", "在全新对话中使用的用户请求"),
     "必须行为": ("必须行为", "必须观察到的行为"),
     "禁止行为": ("禁止行为", "禁止出现的行为"),
     "停止条件": ("停止条件",),
@@ -31,13 +31,23 @@ def case_blocks(path: Path) -> list[tuple[str, str]]:
     return blocks
 
 
+def is_field_line(line: str, labels: tuple[str, ...]) -> bool:
+    prefix = r"^\s*(?:[-*+]\s+|\d+\.\s+)"
+    for label in labels:
+        escaped = re.escape(label)
+        pattern = rf"{prefix}(?:{escaped}|\*\*{escaped}\*\*)\s*(?:：|:)"
+        if re.match(pattern, line):
+            return True
+    return False
+
+
 def main() -> None:
     total = 0
     for path in CASE_FILES:
         for case_id, block in case_blocks(path):
             total += 1
             for field, labels in REQUIRED_FIELDS.items():
-                count = sum(block.count(label) for label in labels)
+                count = sum(is_field_line(line, labels) for line in block.splitlines())
                 assert count == 1, f"{path.name}:{case_id} must contain exactly one {field} field"
     assert total == 14, f"expected 14 behavior cases, found {total}"
     print(f"PASS: {total} behavior case contracts")
